@@ -20,11 +20,11 @@ except:
 
 
 def get_money(user_id: int):
-    return _money.get(user_id, 0)
+    return _money.get(str(user_id), 0)
 
 
 def set_money(user_id, amount):
-    _money[user_id] = amount
+    _money[str(user_id)] = amount
     _dump()
 
 
