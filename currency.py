@@ -26,12 +26,14 @@ def set_money(user_id, amount):
 
 
 def rotate(value):
+    global _frozen
     delta = round(_frozen * (exp(value / _totalv) - 1))
     _frozen -= delta
     return delta
 
 
 def freeze(self, amount: int) -> int:
+    global _frozen
     _frozen -= amount
     value = round(_totalv * log(amount / _frozen + 1))
     return value
