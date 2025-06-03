@@ -17,20 +17,22 @@ if exists(FILENAME):
 
 
 def get_money(user_id: int):
-    return money.get(user_id, 0)
+    return _money.get(user_id, 0)
 
 
 def set_money(user_id, amount):
-    money[user_id] = amount
+    _money[user_id] = amount
     _dump()
 
 
 def rotate(value):
     delta = round(_frozen * (exp(value / _totalv) - 1))
+    _frozen -= delta
     return delta
 
 
 def freeze(self, amount: int) -> int:
+    _frozen -= amount
     value = round(_totalv * log(amount / _frozen + 1))
     return value
 
