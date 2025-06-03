@@ -9,12 +9,14 @@ _totalv = 1000000000
 _frozen = _totalv
 UNIT = "mE"
 
-if exists(FILENAME):
+try:
     with open(FILENAME, "r") as file:
         data = load(file)
     _money = data["money"]
     _totalv = data["totalv"]
     _frozen = data["frozen"]
+except:
+    pass
 
 
 def get_money(user_id: int):
