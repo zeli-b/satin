@@ -15,9 +15,9 @@ class UtilCog(Cog):
             return
 
         if before.channel:
-            await before.channel.send(f"{member} 퇴장")
+            await before.channel.send(f"{member.display_name} 퇴장")
         if after.channel:
-            await after.channel.send(f"{member} 입장")
+            await after.channel.send(f"{member.display_name} 입장")
 
     @command(name="주사위", description="주사위를 굴립니다")
     @describe(dice="주사위 종류 (ndn+n, nㅇn+n)")
