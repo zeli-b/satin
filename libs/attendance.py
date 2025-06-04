@@ -19,6 +19,8 @@ def attend(user_id):
     if day != yesterday:
         day = today
         streak = 1
+    elif day == today:
+        return 0
     else:
         day = today
         streak += 1

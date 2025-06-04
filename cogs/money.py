@@ -26,11 +26,14 @@ class MoneyCog(Cog):
     @command(description="출석합니다")
     async def attend(self, ctx: Interaction):
         streak = attend(ctx.user.id)
+        if streak == 0:
+            await ctx.response.send_message("이미 오늘 출석")
+            return
+
         having = get_money(ctx.user.id)
         bonus = streak * 100
 
         set_money(ctx.user.id, having + bonus)
-
         content = f"{streak}일 연속 출석. {bonus:,} {UNIT} 지급"
 
         await ctx.response.send_message(content)
