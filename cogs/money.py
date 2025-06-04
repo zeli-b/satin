@@ -17,13 +17,13 @@ class MoneyCog(Cog):
         having = get_money(message.author.id)
         set_money(message.author.id, having + amount)
 
-    @command(name="돈", description="소지금을 확인합니다")
-    async def money(self, ctx: Interaction):
+    money_group = Group(name="돈", description="돈 관련 기능")
+
+    @money_group.command(name="확인", description="소지금을 확인합니다")
+    async def money_check(self, ctx: Interaction):
         amount = get_money(ctx.user.id)
 
         await ctx.response.send_message(f"{amount:,} {UNIT}")
-
-    money_group = Group(name="돈", description="돈 관련 기능")
     
     @money_group.command(name="송금", description="돈을 송금합니다.")
     async def money_send(self, ctx: Interaction, to: User, amount: int):
