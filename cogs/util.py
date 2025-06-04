@@ -1,7 +1,7 @@
 from random import randint
 from re import compile
 
-from discord import Interaction
+from discord import Interaction, Member
 from discord.app_commands import command, describe, Group
 from discord.ext.commands import Cog, Bot
 
