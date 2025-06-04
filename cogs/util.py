@@ -9,6 +9,16 @@ from libs.memo import get_memo, set_memo
 
 
 class UtilCog(Cog):
+    @Cog.listener()
+    async def on_voice_state_update(self, member: Member, before, after):
+        if before.channel == after.channel:
+            return
+
+        if before.channel:
+            await before.channel.send(f"{member} 퇴장")
+        if after.channel:
+            await after.channel.send(f"{member} 입장")
+
     @command(name="주사위", description="주사위를 굴립니다")
     @describe(dice="주사위 종류 (ndn+n, nㅇn+n)")
     async def search(self, ctx: Interaction, dice: str):
