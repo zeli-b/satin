@@ -9,10 +9,10 @@ from libs.memo import get_memo, set_memo
 
 
 class UtilCog(Cog):
-    @command(description="주사위를 굴립니다")
-    @describe(dice="주사위 종류 (ndn+n)")
+    @command(name="주사위", description="주사위를 굴립니다")
+    @describe(dice="주사위 종류 (ndn+n, nㅇn+n)")
     async def search(self, ctx: Interaction, dice: str):
-        re = compile(r"(\d+)?[dD](\d+)([+\-]\d+)?")
+        re = compile(r"(\d+)?[dDㅇ](\d+)([+\-]\d+)?")
         die = re.findall(dice)
 
         if not die:
@@ -30,9 +30,9 @@ class UtilCog(Cog):
 
         await ctx.response.send_message(message)
 
-    memo_group = Group(name="memo", description="메모를 작성하고 불러옵니다.")
+    memo_group = Group(name="메모", description="메모를 작성하고 불러옵니다.")
 
-    @memo_group.command(name="load", description="메모 보기")
+    @memo_group.command(name="보기", description="메모 보기")
     @describe(name="메모 이름")
     async def memo_load(self, ctx: Interaction, name: str):
         content = get_memo(name)
@@ -42,7 +42,7 @@ class UtilCog(Cog):
 
         await ctx.response.send_message(f">>> {content}")
 
-    @memo_group.command(name="save", description="메모 쓰기")
+    @memo_group.command(name="저장", description="메모 쓰기")
     @describe(name="메모 이름", content="메모 내용")
     async def memo_save(self, ctx: Interaction, name: str, content: str = ""):
         set_memo(name, content)

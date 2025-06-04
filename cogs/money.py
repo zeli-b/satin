@@ -17,13 +17,13 @@ class MoneyCog(Cog):
         having = get_money(message.author.id)
         set_money(message.author.id, having + amount)
 
-    @command(description="소지금을 확인합니다")
+    @command(name="돈", description="소지금을 확인합니다")
     async def money(self, ctx: Interaction):
         amount = get_money(ctx.user.id)
 
         await ctx.response.send_message(f"{amount:,} {UNIT}")
 
-    @command(description="출석합니다")
+    @command(name="출석", description="출석합니다")
     async def attend(self, ctx: Interaction):
         streak = attend(ctx.user.id)
         if streak == 0:
