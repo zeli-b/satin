@@ -1,4 +1,4 @@
-trom math import floor
+from math import floor
 from datetime import datetime
 
 AbeliquaTime = tuple[int, int, int, int, int, float]
