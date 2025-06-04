@@ -6,7 +6,7 @@ AbeliquaTime = tuple[int, int, int, int, int, float]
 
 def format(time: AbeliquaTime) -> str:
     year, month, day, hour, minu, sec = time
-    return f"{year}-{month:02d}-{day:02d} {hour:02d}:{minu:02d}:{sec:02.f}"
+    return f"{year}-{month:02}-{day:02} {hour:02}:{minu:02}:{sec:05.2}"
 
 
 def from_datetime(time: datetime) -> AbeliquaTime:
