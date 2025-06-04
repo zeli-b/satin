@@ -44,7 +44,7 @@ class UtilCog(Cog):
 
     @memo_group.command(name="save", description="메모 쓰기")
     @describe(name="메모 이름", content="메모 내용")
-    async def memo_save(self, ctx: Interaction, name: str, content: str):
+    async def memo_save(self, ctx: Interaction, name: str, content: str = ""):
         set_memo(name, content)
         await ctx.response.send_message(f"메모 저장")
 
