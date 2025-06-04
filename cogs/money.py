@@ -36,8 +36,9 @@ class MoneyCog(Cog):
             await ctx.response.send_message("돈이 부족합니다.", ephemeral=True)
             return
 
-        them_having = get_money(to.id)
         set_money(ctx.user.id, having - amount)
+
+        them_having = get_money(to.id)
         set_money(to.id, them_having + amount)
 
         await ctx.response.send_message("돈을 송금했습니다.")
