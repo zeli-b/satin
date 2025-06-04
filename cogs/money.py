@@ -23,7 +23,7 @@ class MoneyCog(Cog):
 
         await ctx.response.send_message(f"{amount:,} {UNIT}")
 
-    money_group = Group(name="돈", describe="돈 관련 기능")
+    money_group = Group(name="돈", description="돈 관련 기능")
     
     @money_group.command(name="송금", description="돈을 송금합니다.")
     async def money_send(self, ctx: Interaction, to: User, amount: int):
