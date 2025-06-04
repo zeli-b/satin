@@ -4,7 +4,7 @@ from discord import Interaction
 from discord.app_commands import command, describe, Group
 from discord.ext.commands import Cog, Bot
 
-from util import abeliqua
+from libs import abeliqua
 
 
 class SatCog(Cog):
