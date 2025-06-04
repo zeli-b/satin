@@ -11,10 +11,10 @@ except:
 
 
 def attend(user_id):
-    today = datetime.today()
-    yesterday = datetime.today() - timedelta(days=1)
+    today = datetime.today().isoformat()
+    yesterday = (datetime.today() - timedelta(days=1)).isoformat()
 
-    day, streak = _data.get(str(user_id), (yesterday, 0))
+    day, streak = _data.get(str(user_id), [yesterday, 0])
 
     if day != yesterday:
         day = today
@@ -23,7 +23,7 @@ def attend(user_id):
         day = today
         streak += 1
 
-    _data[str(user_id)] = (day, streak)
+    _data[str(user_id)] = [day, streak]
     _save()
 
     return streak
