@@ -1,8 +1,8 @@
 from random import randint
 from re import compile
 
-from discord import Interaction, Message
-from discord.app_commands import command, describe
+from discord import Interaction, Message, User
+from discord.app_commands import command, describe, Group
 from discord.ext.commands import Cog, Bot
 
 from libs.currency import get_money, UNIT, rotate, set_money
@@ -22,6 +22,25 @@ class MoneyCog(Cog):
         amount = get_money(ctx.user.id)
 
         await ctx.response.send_message(f"{amount:,} {UNIT}")
+
+    money_group = Group(name="돈", describe="돈 관련 기능")
+    
+    @money_group.command(name="송금", description="돈을 송금합니다.")
+    async def money_send(self, ctx: Interaction, to: User, amount: int):
+        if amount <= 0:
+            await ctx.response.send_message("송금액이 이상합니다.", ephemeral=True)
+            return
+
+        having = get_money(ctx.user.id)
+        if having < amount:
+            await ctx.response.send_message("돈이 부족합니다.", ephemeral=True)
+            return
+
+        them_having = get_money(to.id)
+        set_money(ctx.user.id, having - amount)
+        set_money(to.id, them_having + amount)
+
+        await ctx.response.send_message("돈을 송금했습니다.")
 
     @command(name="출석", description="출석합니다")
     async def attend(self, ctx: Interaction):
