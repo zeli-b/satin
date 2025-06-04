@@ -30,7 +30,7 @@ class UtilCog(Cog):
 
         await ctx.response.send_message(message)
 
-    memo_group = Group(name="memo")
+    memo_group = Group(name="memo", description="메모를 작성하고 불러옵니다.")
 
     @memo_group.command(name="load", description="메모 보기")
     @describe(name="메모 이름")
