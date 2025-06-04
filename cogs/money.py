@@ -6,7 +6,7 @@ from discord.app_commands import command, describe, Group
 from discord.ext.commands import Cog, Bot
 
 from libs.currency import get_money, UNIT, rotate, set_money
-from libs.attendance import attend
+from libs.attendance import attend, get_ranking
 
 
 class MoneyCog(Cog):
@@ -43,7 +43,9 @@ class MoneyCog(Cog):
 
         await ctx.response.send_message("돈을 송금했습니다.")
 
-    @command(name="출석", description="출석합니다")
+    attend_group = Group(name="출석", description="출석 관련 명령어")
+
+    @attend_group.command(name="체크", description="출석합니다")
     async def attend(self, ctx: Interaction):
         streak = attend(ctx.user.id)
         if streak == 0:
@@ -54,7 +56,9 @@ class MoneyCog(Cog):
         bonus = rotate(streak * 100)
 
         set_money(ctx.user.id, having + bonus)
-        content = f"{streak}일 연속 출석. {bonus:,} {UNIT} 지급"
+        record = get_record(ctx.user.id)
+        content = f"{streak}일 연속 출석. " \
+                  f"{bonus:,} {UNIT} 지급. 최고기록 {record}일"
 
         await ctx.response.send_message(content)
 
