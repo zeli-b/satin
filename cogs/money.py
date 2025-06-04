@@ -31,7 +31,7 @@ class MoneyCog(Cog):
             return
 
         having = get_money(ctx.user.id)
-        bonus = streak * 100
+        bonus = rotate(streak * 100)
 
         set_money(ctx.user.id, having + bonus)
         content = f"{streak}일 연속 출석. {bonus:,} {UNIT} 지급"

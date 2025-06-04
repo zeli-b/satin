@@ -16,11 +16,13 @@ def attend(user_id):
 
     day, streak = _data.get(str(user_id), [yesterday, 0])
 
+    print(day, today, yesterday)
+    if day == today:
+        return 0
+
     if day != yesterday:
         day = today
         streak = 1
-    elif day == today:
-        return 0
     else:
         day = today
         streak += 1
