@@ -5,7 +5,8 @@ from discord import Interaction, Message
 from discord.app_commands import command, describe
 from discord.ext.commands import Cog, Bot
 
-from currency import get_money, UNIT, rotate, set_money
+from libs.currency import get_money, UNIT, rotate, set_money
+from libs.attendance import attend
 
 
 class MoneyCog(Cog):
@@ -16,11 +17,23 @@ class MoneyCog(Cog):
         having = get_money(message.author.id)
         set_money(message.author.id, having + amount)
 
-    @command(name="money", description="소지금을 확인합니다")
+    @command(description="소지금을 확인합니다")
     async def money(self, ctx: Interaction):
         amount = get_money(ctx.user.id)
 
         await ctx.response.send_message(f"{amount:,} {UNIT}")
+
+    @command(description="출석합니다")
+    async def attend(self, ctx: Interaction):
+        streak = attend(ctx.user.id)
+        having = get_money(ctx.user.id)
+        bonus = streak * 100
+
+        set_money(ctx.user.id, having + bonus)
+
+        content = f"{streak}일 연속 출석. {bonus:,} {UNIT} 지급"
+
+        await ctx.response.send_message(content)
 
 
 async def setup(bot: Bot):
