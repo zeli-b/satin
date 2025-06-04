@@ -40,7 +40,7 @@ def days_to_abeliqua(days) -> AbeliquaTime:
         year += 1
 
     month = 1
-    while count > le := (get_month_length(month, year)):
+    while count > (le := get_month_length(month, year)):
         count -= le
         month += 1
 
