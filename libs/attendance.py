@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import date, timedelta
 from json import load, dump
 
 FILENAME = "res/attend.json"
@@ -11,8 +11,8 @@ except:
 
 
 def attend(user_id):
-    today = datetime.today().isoformat()
-    yesterday = (datetime.today() - timedelta(days=1)).isoformat()
+    today = date.today().isoformat()
+    yesterday = (date.today() - timedelta(days=1)).isoformat()
 
     day, streak = _data.get(str(user_id), [yesterday, 0])
 
