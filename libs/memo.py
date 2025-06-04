@@ -15,6 +15,7 @@ def get_memo(name):
 def set_memo(memo, content):
     if content:
         _data[memo] = content
+        _save()
         return
 
     del _data[memo]
