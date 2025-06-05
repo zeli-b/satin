@@ -6,7 +6,7 @@ from discord.app_commands import command, describe, Group
 from discord.ext.commands import Cog, Bot
 
 from libs.currency import get_money, UNIT, rotate, set_money, get_owners, \
-        set_owners, get_accounts_of
+        set_owners, get_accounts_of, is_account
 from libs.attendance import attend, get_record
 
 

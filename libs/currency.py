@@ -32,6 +32,7 @@ def set_money(user_id, amount):
 
 def set_owners(of: str, whos: list[int]):
     _owners[of] = whos
+    _dump()
 
 
 def get_owners(of: str):
