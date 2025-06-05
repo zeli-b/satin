@@ -40,7 +40,7 @@ def get_owners(of: str):
 
 
 def is_account(named: str):
-    return named in _money or _named in _owners
+    return named in _money or named in _owners
 
 
 def get_accounts_of(who):
