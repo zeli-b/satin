@@ -7,6 +7,7 @@ FILENAME = "./res/money.json"
 _money = dict()
 _totalv = 1000000000
 _frozen = _totalv
+_owners = dict()
 UNIT = "mE"
 
 try:
@@ -15,6 +16,7 @@ try:
     _money = data["money"]
     _totalv = data["totalv"]
     _frozen = data["frozen"]
+    _owners = data["owners"]
 except:
     pass
 
@@ -26,6 +28,18 @@ def get_money(user_id: int):
 def set_money(user_id, amount):
     _money[str(user_id)] = amount
     _dump()
+
+
+def set_owners(of: str, whos: list[int]):
+    _owners[of] = whos
+
+
+def get_owners(of: str):
+    return _owners.get(of)
+
+
+def is_account(named: str):
+    return named in _money
 
 
 def rotate(value):
@@ -48,4 +62,5 @@ def _dump():
             "money": _money,
             "totalv": _totalv,
             "frozen": _frozen,
+            "owners": _owners,
         }, file)

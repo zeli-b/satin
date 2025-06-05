@@ -5,7 +5,8 @@ from discord import Interaction, Message, User
 from discord.app_commands import command, describe, Group
 from discord.ext.commands import Cog, Bot
 
-from libs.currency import get_money, UNIT, rotate, set_money
+from libs.currency import get_money, UNIT, rotate, set_money, get_owners, \
+        set_owners
 from libs.attendance import attend, get_record
 
 
@@ -42,6 +43,27 @@ class MoneyCog(Cog):
         set_money(to.id, them_having + amount)
 
         await ctx.response.send_message("돈을 송금했습니다.")
+
+    account_group = Group(name="법인", description="법인 관련 명령어")
+
+    @account_group.command(
+        name="개설",
+        description=f"법인을 개설합니다. 100 {UNIT}이 필요합니다."
+    )
+    async def account_create(self, ctx: Interaction, name: str):
+        return await ctx.response.send_message("구현안됨")
+
+    @account_group.command(name="충전", description=f"법인 잔액을 충전합니다")
+    async def account_charge(self, ctx: Interaction, name: str, amount: int):
+        return await ctx.response.send_message("구현안됨")
+
+    @account_group.command(name="확인", description=f"법인 잔액을 확인합니다")
+    async def account_charge(self, ctx: Interaction, name: str):
+        return await ctx.response.send_message("구현안됨")
+
+    @account_group.command(name="삭제", description=f"법인을 삭제합니다")
+    async def account_charge(self, ctx: Interaction, name: str):
+        return await ctx.response.send_message("구현안됨")
 
     attend_group = Group(name="출석", description="출석 관련 명령어")
 
