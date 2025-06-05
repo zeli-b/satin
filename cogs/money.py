@@ -98,7 +98,7 @@ class MoneyCog(Cog):
     @account_group.command(name="확인", description=f"법인 잔액을 확인합니다")
     async def account_check(self, ctx: Interaction, name: str):
         accounts = get_accounts_of(ctx.user.id)
-        if not accounts:
+        if ctx.user.id not in accounts:
             await ctx.response.send_message("소유권 없음")
             return
 
