@@ -6,7 +6,7 @@ from discord.app_commands import command, describe, Group
 from discord.ext.commands import Cog, Bot
 
 from libs.currency import get_money, UNIT, rotate, set_money, get_owners, \
-        set_owners
+        set_owners, get_accounts_of
 from libs.attendance import attend, get_record
 
 
@@ -51,18 +51,66 @@ class MoneyCog(Cog):
         description=f"법인을 개설합니다. 100 {UNIT}이 필요합니다."
     )
     async def account_create(self, ctx: Interaction, name: str):
-        return await ctx.response.send_message("구현안됨")
+        if is_account(name):
+            await ctx.response.send_message("이미 이름 존재", ephemeral=True)
+            return
+
+        having = get_money(ctx.user.id)
+        if having < 100:
+            await ctx.response.send_message("잔액부족", ephemeral=True)
+            return
+
+        amount = freeze(100)
+        set_money(ctx.user.id, having - amount)
+
+        set_owners(name, [ctx.user.id])
+
+        await ctx.response.send_message("법인 개설됨")
+
+    @account_group.command(name="목록", description="가지고 있는 법인 목록 보기")
+    async def account_list(self, ctx: Interaction):
+        accounts = get_accounts_of(ctx.user)
+        
+        if not accounts:
+            await ctx.response.send_message("법인 없음")
+            return
+
+        content = ", ".join(accounts)
+        await ctx.response.send_message(content)
 
     @account_group.command(name="충전", description=f"법인 잔액을 충전합니다")
     async def account_charge(self, ctx: Interaction, name: str, amount: int):
-        return await ctx.response.send_message("구현안됨")
+        if not is_account(name):
+            await ctx.response.send_message("법인 없음", ephemeral=True)
+            return
+
+        having = get_money(ctx.user.id)
+        if having < amount:
+            await ctx.response.send_message("잔액부족", ephemeral=True)
+            return
+
+        acc_having = get_money(name)
+        set_money(ctx.user.id, having - amount)
+        set_money(name, acc_having + amount)
+
+        await ctx.response.send_message("송금함")
 
     @account_group.command(name="확인", description=f"법인 잔액을 확인합니다")
-    async def account_charge(self, ctx: Interaction, name: str):
-        return await ctx.response.send_message("구현안됨")
+    async def account_check(self, ctx: Interaction, name: str):
+        accounts = get_accounts_of(ctx.user)
+        if not accounts:
+            await ctx.response.send_message("소유권 없음")
+            return
+
+        having = get_money(name)
+        await ctx.response.send_message(f"{having:,} {UNIT}")
 
     @account_group.command(name="삭제", description=f"법인을 삭제합니다")
-    async def account_charge(self, ctx: Interaction, name: str):
+    async def account_remove(self, ctx: Interaction, name: str):
+        return await ctx.response.send_message("구현안됨")
+
+    @account_group.command(name="송금", description=f"법인에서 송금합니다")
+    async def account_send(self, ctx: Interaction, name: str, to: User, amount: int):
         return await ctx.response.send_message("구현안됨")
 
     attend_group = Group(name="출석", description="출석 관련 명령어")

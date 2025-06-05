@@ -21,7 +21,7 @@ except:
     pass
 
 
-def get_money(user_id: int):
+def get_money(user_id):
     return _money.get(str(user_id), 0)
 
 
@@ -40,6 +40,15 @@ def get_owners(of: str):
 
 def is_account(named: str):
     return named in _money
+
+
+def get_accounts_of(who):
+    result = list()
+    for acc, owners in _owners.items():
+        if who not in owners:
+            continue
+        result.append(acc)
+    return result
 
 
 def rotate(value):
