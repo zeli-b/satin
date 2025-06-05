@@ -1,5 +1,5 @@
 from json import load, dump
-from math import exp
+from math import exp, log
 from os.path import exists
 
 FILENAME = "./res/money.json"
