@@ -59,7 +59,7 @@ def rotate(value):
     return delta
 
 
-def freeze(self, amount: int) -> int:
+def freeze(amount: int) -> int:
     global _frozen
     _frozen -= amount
     value = round(_totalv * log(amount / _frozen + 1))
