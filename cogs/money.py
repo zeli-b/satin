@@ -69,7 +69,7 @@ class MoneyCog(Cog):
 
     @account_group.command(name="목록", description="가지고 있는 법인 목록 보기")
     async def account_list(self, ctx: Interaction):
-        accounts = get_accounts_of(ctx.user)
+        accounts = get_accounts_of(ctx.user.id)
         
         if not accounts:
             await ctx.response.send_message("법인 없음")
@@ -97,7 +97,7 @@ class MoneyCog(Cog):
 
     @account_group.command(name="확인", description=f"법인 잔액을 확인합니다")
     async def account_check(self, ctx: Interaction, name: str):
-        accounts = get_accounts_of(ctx.user)
+        accounts = get_accounts_of(ctx.user.id)
         if not accounts:
             await ctx.response.send_message("소유권 없음")
             return
