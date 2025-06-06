@@ -29,7 +29,7 @@ def attend(user_id):
         day = today
         streak += 1
 
-    _data[str(user_id)] = [day, streak, min(streak, record)]
+    _data[str(user_id)] = [day, streak, max(streak, record)]
     _save()
 
     return streak
