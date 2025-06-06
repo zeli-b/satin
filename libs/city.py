@@ -45,6 +45,10 @@ def set_population(name, population):
     save()
 
 
+def is_city(name):
+    return name in cities
+
+
 def save():
     with open(FILENAME, "w") as file:
         dump(data, file)
