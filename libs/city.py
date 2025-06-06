@@ -1,5 +1,7 @@
 from json import dump, load
 
+FILENAME = "res/city.json"
+
 try:
     with open(FILENAME, "r") as file:
         data = load(file)
