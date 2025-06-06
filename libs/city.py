@@ -4,8 +4,7 @@ FILENAME = "res/city.json"
 
 try:
     with open(FILENAME, "r") as file:
-        data = load(file)
-    cities = data
+        cities = load(file)
 except:
     cities = dict()
 
@@ -53,4 +52,4 @@ def is_city(name):
 
 def save():
     with open(FILENAME, "w") as file:
-        dump(data, file)
+        dump(cities, file)
