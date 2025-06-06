@@ -5,8 +5,9 @@ from os.path import exists
 FILENAME = "./res/money.json"
 
 _money = dict()
+_tax = dict()
 _totalv = 1000000000
-_frozen = _totalv
+_frozen = 1000000000
 _owners = dict()
 UNIT = "mE"
 
@@ -14,11 +15,13 @@ try:
     with open(FILENAME, "r") as file:
         data = load(file)
     _money = data["money"]
+    _tax = data["tax"]
     _totalv = data["totalv"]
-    _frozen = data["frozen"]
     _owners = data["owners"]
 except:
     pass
+
+_frozen = _totalv - sum(_money.values())
 
 
 def get_money(user_id):
@@ -27,6 +30,15 @@ def get_money(user_id):
 
 def set_money(user_id, amount):
     _money[str(user_id)] = amount
+    _dump()
+
+
+def get_tax(user_id):
+    return _tax.get(str(user_id), 0)
+
+
+def set_tax(user_id, amount):
+    _tax[str(user_id)] = amount
     _dump()
 
 
@@ -73,4 +85,5 @@ def _dump():
             "totalv": _totalv,
             "frozen": _frozen,
             "owners": _owners,
+            "tax": _tax,
         }, file)
