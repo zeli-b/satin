@@ -6,7 +6,7 @@ from discord.app_commands import command, describe, Group
 from discord.ext.commands import Cog, Bot
 
 from libs.currency import get_money, UNIT, rotate, set_money, get_owners, \
-        set_owners, get_accounts_of, is_account, freeze
+        set_owners, get_accounts_of, is_account, freeze, get_tax, set_tax
 from libs.attendance import attend, get_record
 
 
@@ -112,6 +112,40 @@ class MoneyCog(Cog):
     @account_group.command(name="송금", description=f"법인에서 송금합니다")
     async def account_send(self, ctx: Interaction, name: str, to: User, amount: int):
         return await ctx.response.send_message("구현안됨")
+
+    @account_group.command(name="세금", description=f"법인의 미납 세금을 확인합니다")
+    async def account_tax(self, ctx: Interaction, name: str):
+        if not is_account(name):
+            await ctx.response.send_message("법인 불명", ephemeral=True)
+            return
+
+        tax = get_tax(name)
+        await ctx.response.send_message(f"{tax:,} {UNIT}")
+
+    @account_group.command(name="납세", description="법인이 세금을 납세합니다")
+    async def account_pay(self, ctx: Interaction, name: str, amount: int = 0):
+        if amount < 0:
+            await ctx.response.send_message("금액 이상함", ephemeral=True)
+            return
+
+        if not is_account(name):
+            await ctx.response.send_message("법인 불명", ephemeral=True)
+            return
+
+        tax = get_tax(name)
+        having = get_money(name)
+
+        if amount == 0:
+            amount = min(having, tax)
+
+        if amount > having:
+            await ctx.response.send_message("잔액부족", ephemeral=True)
+            return
+
+        set_tax(name, tax - amount)
+        set_money(name, having - amount)
+
+        await ctx.response.send_message("납세함")
 
     attend_group = Group(name="출석", description="출석 관련 명령어")
 
