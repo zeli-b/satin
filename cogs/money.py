@@ -105,14 +105,6 @@ class MoneyCog(Cog):
         having = get_money(name)
         await ctx.response.send_message(f"{having:,} {UNIT}")
 
-    @account_group.command(name="삭제", description=f"법인을 삭제합니다")
-    async def account_remove(self, ctx: Interaction, name: str):
-        return await ctx.response.send_message("구현안됨")
-
-    @account_group.command(name="송금", description=f"법인에서 송금합니다")
-    async def account_send(self, ctx: Interaction, name: str, to: User, amount: int):
-        return await ctx.response.send_message("구현안됨")
-
     @account_group.command(name="세금", description=f"법인의 미납 세금을 확인합니다")
     async def account_tax(self, ctx: Interaction, name: str):
         if not is_account(name):
