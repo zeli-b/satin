@@ -86,4 +86,4 @@ def _dump():
             "frozen": _frozen,
             "owners": _owners,
             "tax": _tax,
-        }, file)
+        }, file, ensure_ascii=False)
