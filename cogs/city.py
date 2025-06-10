@@ -1,11 +1,17 @@
 from discord import Interaction
 from discord.app_commands import command, describe, Group, checks
 from discord.ext.commands import Cog, Bot
+from discord.exp.tasks import loop
 
+from consts import get_const
 from libs import city, currency
 
 
 class CityCog(Cog):
+    @loop(seconds=get_const("city.payment-loop-sec"))
+    async def loop_payment(self):
+        print("when start")
+    
     city_group = Group(name="도시", description="도시를 관리합니다")
 
     @city_group.command(name="건설", description="도시 건설하기")
