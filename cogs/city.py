@@ -1,3 +1,4 @@
+from math import log10
 from discord import Interaction
 from discord.app_commands import command, describe, Group, checks
 from discord.ext.commands import Cog, Bot
@@ -7,10 +8,37 @@ from consts import get_const
 from libs import city, currency
 
 
+def payment(name):
+    pop = city.get_population(name)
+    are = city.get_area(name)
+    dom = city.get_dominance(name)
+    man = city.get_management(name)
+
+    ecy_delta = 0
+    pop_delta = 0
+    dom_delta = 0
+
+    pop_delta += round(pop * 2.1 ** (1/440))
+    ecy_delta -= round(pop * arr / 100000)
+    dom_delta -= (log10(pop) - 3) / 100
+    ecy_delta -= round(pop * (1 - dom) / 10 * man)
+    dom_delta += man / 100
+    ecy_delta -= round(pop / 100 * k)
+    ecy_delta += round((pop**1.1 - 1000) / 20)
+    dom_delta -= abs((3.5 - log10(pop / are)) / 100)
+
+    city.set_population(pop + pop_delta)
+    city.set_area(are + are_delta)
+    city.set_dominance(dom + dom_delta)
+
+
 class CityCog(Cog):
     @loop(seconds=get_const("city.payment-loop-sec"))
     async def loop_payment(self):
-        print("when start")
+        for name in city.get_city_names():
+            payment(name)
+            print(f"payment for {name}")
+        print(f"payment done")
     
     city_group = Group(name="도시", description="도시를 관리합니다")
 
