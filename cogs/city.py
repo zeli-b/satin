@@ -1,7 +1,7 @@
 from discord import Interaction
 from discord.app_commands import command, describe, Group, checks
 from discord.ext.commands import Cog, Bot
-from discord.exp.tasks import loop
+from discord.ext.tasks import loop
 
 from consts import get_const
 from libs import city, currency
