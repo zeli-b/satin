@@ -1,5 +1,5 @@
 from math import floor
-from datetime import datetime
+from datetime import datetime, timedelta
 
 AbeliquaTime = tuple[int, int, int, int, int, float]
 
@@ -31,7 +31,7 @@ def get_month_length(month, year):
     return 16
 
 
-def days_to_abeliqua(days) -> AbeliquaTime:
+def days_to_abeliqua(days: float) -> AbeliquaTime:
     count = floor(days)
 
     year, count = count // 8559 * 50, count % 8559
@@ -48,7 +48,7 @@ def days_to_abeliqua(days) -> AbeliquaTime:
 
     hours = 24 * (days % 1)
     hour = floor(hours)
-    
+
     minutes = 60 * (hours % 1)
     minute = floor(minutes)
 
@@ -56,3 +56,43 @@ def days_to_abeliqua(days) -> AbeliquaTime:
 
     return (year, month, day, hour, minute, seconds)
 
+
+def abeliqua_to_days(time: AbeliquaTime) -> float:
+    year, month, day, hour, minute, seconds = time
+
+    total_days = 0.0
+
+    # 1. 년도까지의 일수 계산 (50년 주기 8559일 활용)
+    total_days += (year // 50) * 8559
+    remaining_years = year % 50
+
+    for y in range(remaining_years):
+        total_days += get_year_length(y)
+
+    # 2. 월까지의 일수 계산
+    for m in range(1, month):
+        total_days += get_month_length(m, year)
+
+    # 3. 일수 추가 (day는 1부터 시작하므로 -1)
+    total_days += (day - 1)
+
+    # 4. 시간, 분, 초 추가
+    total_days += hour / 24
+    total_days += minute / (24 * 60)
+    total_days += seconds / (24 * 60 * 60)
+
+    return total_days
+
+
+def to_datetime(abeliqua_time: AbeliquaTime) -> datetime:
+    # 1. Abeliqua 시간을 기준일로부터의 총 일수로 변환
+    abeliqua_total_days = abeliqua_to_days(abeliqua_time)
+
+    # 2. Abeliqua 스케일 팩터를 역으로 적용하여 지구 일수 계산
+    earth_days = abeliqua_total_days / 171.18
+
+    # 3. 기준점 (2025년 2월 24일)에 지구 일수를 더하여 datetime 객체 생성
+    base_datetime = datetime(2025, 2, 24)
+    result_datetime = base_datetime + timedelta(days=earth_days)
+
+    return result_datetime

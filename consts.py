@@ -9,13 +9,13 @@ with open("res/secrets.json", "r") as file:
 
 
 def _get(dictionary, path) -> Optional[Any]:
-    path = path.split(".")
+    paths = path.split(".")
 
-    while path:
-        dictionary = dictionary.get(path.pop(0))
+    while paths:
+        dictionary = dictionary.get(paths.pop(0))
 
         if dictionary is None:
-            return None
+            raise NameError(f'value with key {path} not found')
 
     return dictionary
 

@@ -36,7 +36,8 @@ class UtilCog(Cog):
 
         rolls = [randint(1, side) for _ in range(count)]
         eyes = sum(rolls) + delta
-        message = " + ".join(map(str, rolls)) + f" + ({delta}) = __**{eyes}**__"
+        message = " + ".join(map(str, rolls)) \
+                + f" + ({delta}) = __**{eyes}**__"
 
         await ctx.response.send_message(message)
 
